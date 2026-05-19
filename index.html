@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AURÉA HOME — Modern Living, Thoughtfully Curated</title>
+<!-- 网站图标 (Favicon) - 高端极简 SVG 数据嵌入式图标（全中文注释） -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23C17F59'/><path d='M50 20L20 45h15v35h30V45h15L50 20zm0 10l20 16.7V75H65v-25H35v25h-5V46.7L50 30z' fill='white'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -166,25 +168,12 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   background: linear-gradient(135deg, oklch(0.95 0.008 70) 0%, oklch(0.90 0.012 60) 40%, oklch(0.93 0.010 50) 100%);
   margin-top: 0; padding-top: var(--nav-height);
 }
-.hero::before {
-  content: ''; position: absolute;
-  top: -50%; right: -20%; width: 80%; height: 150%;
-  background: radial-gradient(ellipse, oklch(0.62 0.10 50 / 0.15) 0%, transparent 70%);
-  animation: heroGlow 8s ease-in-out infinite alternate;
-}
-.hero::after {
-  content: ''; position: absolute;
-  bottom: -30%; left: -10%; width: 60%; height: 80%;
-  background: radial-gradient(ellipse, oklch(0.65 0.06 155 / 0.12) 0%, transparent 70%);
-  animation: heroGlow 10s ease-in-out infinite alternate-reverse;
-}
-@keyframes heroGlow {
-  0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
-  100% { transform: scale(1.15) translate(2%, -2%); opacity: 1; }
-}
+
 .hero-content {
   position: relative; z-index: 1;
-  max-width: 640px;
+  max-width: 800px; margin: 0 auto;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
   animation: fadeUp 800ms var(--ease-out-expo) both;
 }
 @keyframes fadeUp {
@@ -200,7 +189,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 .hero h1 em { font-style: italic; color: var(--color-accent); }
 .hero p {
   font-size: 1.125rem; color: var(--color-text-muted);
-  max-width: 480px; line-height: 1.7; margin-bottom: var(--space-lg);
+  max-width: 600px; line-height: 1.7; margin-bottom: var(--space-lg);
 }
 .hero-buttons { display: flex; gap: var(--space-md); flex-wrap: wrap; }
 .btn {
@@ -1004,6 +993,411 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   COOL EFFECTS - 炫酷增强特效（全中文注释）
+   ============================================================ */
+
+/* 全局交互 Canvas 背景容器 */
+.canvas-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 按钮渐变流光炫酷动画 */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light), var(--color-accent)) !important;
+  background-size: 200% auto !important;
+  animation: shimmer-btn-glow 4s linear infinite;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+@keyframes shimmer-btn-glow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.6s ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+/* 商品卡片 3D 悬浮透视及玻璃反光效果 */
+.product-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.50, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.50, 1) !important;
+  position: relative;
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+
+/* 滚动平滑淡入呈现 */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.50, 1), transform 0.8s cubic-bezier(0.25, 1, 0.50, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 商品加入购物车飞入动效 */
+.flying-product-image {
+  position: fixed;
+  z-index: 9999;
+  width: 60px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.50, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 购物车徽章弹性抖动动效 */
+@keyframes cart-badge-bounce {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.5) rotate(-15deg); }
+  50% { transform: scale(1.2) rotate(15deg); }
+  70% { transform: scale(1.4) rotate(-5deg); }
+}
+
+.cart-badge.shake {
+  animation: cart-badge-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* 类别过滤器按钮交互优化 */
+.cat-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.cat-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.cat-btn:hover::after {
+  transform: scaleX(1);
+}
+
+/* 首屏流光磨砂球体 */
+.hero-glass-orb {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.25;
+  z-index: 0;
+}
+/* ============================================================
+   LANGUAGE SELECTOR
+   ============================================================ */
+.lang-selector {
+  position: relative;
+  display: inline-block;
+  align-self: center;
+}
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 30px;
+  transition: all 250ms var(--ease-out-quart);
+}
+.lang-btn:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.4rem 0;
+  min-width: 130px;
+  display: none;
+  z-index: 150;
+  margin-top: 0.6rem;
+  transform-origin: top right;
+  animation: dropdownFade 300ms var(--ease-out-expo) both;
+}
+.lang-dropdown.open {
+  display: block;
+}
+.lang-dropdown a {
+  display: block;
+  padding: 0.6rem 1.2rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 200ms;
+  text-align: left;
+}
+.lang-dropdown a:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 移动端菜单内语言选择器的适配 */
+@media (max-width: 768px) {
+  .lang-selector {
+    margin: var(--space-md) 0 0 0;
+    width: 100%;
+  }
+  .lang-btn {
+    width: 100%;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    padding: 0.75rem 1.25rem;
+  }
+  .lang-dropdown {
+    position: relative;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background: var(--color-surface-alt);
+    margin-top: 0.4rem;
+  }
+  .lang-dropdown a {
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   FLOATING SUPPORT PANEL CSS
+   ============================================================ */
+.support-floater {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  font-family: var(--font-body);
+}
+.support-trigger {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  position: relative;
+  transition: transform 300ms var(--ease-out-quart), background-color 300ms;
+}
+.support-trigger:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: var(--color-accent-dark);
+}
+.support-trigger:active {
+  transform: scale(0.95);
+}
+.support-trigger .pulse-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #2ecc71;
+  border: 2px solid white;
+  border-radius: 50%;
+  animation: pulseGreen 2s infinite;
+}
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+.support-card {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 320px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-out-quart), transform 300ms var(--ease-out-quart);
+  overflow: hidden;
+}
+.support-card.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.support-card-header {
+  background: rgba(255, 255, 255, 0.5);
+  padding: var(--space-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.support-card-header .header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.support-card-header .live-dot {
+  width: 8px;
+  height: 8px;
+  background: #2ecc71;
+  border-radius: 50%;
+  animation: pulseGreen 1.5s infinite;
+}
+.support-card-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.support-card-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color 200ms;
+}
+.support-card-header .close-btn:hover {
+  color: var(--color-text);
+}
+.support-card-body {
+  padding: var(--space-md);
+}
+.support-card-body p {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+}
+.support-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.support-option-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0.85rem var(--space-md);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: all 250ms var(--ease-out-quart);
+}
+.support-option-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.support-option-item i {
+  font-size: 1.5rem;
+}
+.support-option-item.tg i { color: #0088cc; }
+.support-option-item.x-tw i { color: #111111; }
+.support-option-item.insta i { color: #e1306c; }
+.support-option-item div {
+  flex: 1;
+}
+.support-option-item h5 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.support-option-item span {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+.support-option-item .arrow {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  opacity: 0.5;
+  transition: transform 200ms;
+}
+.support-option-item:hover .arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -1018,9 +1412,22 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
       <i class="fa-solid fa-bars"></i>
     </button>
     <div class="nav-links" id="navLinks">
-      <a href="#shop" onclick="navigateTo('home'); document.getElementById('shop').scrollIntoView({behavior:'smooth'});" class="active">Shop</a>
-      <a href="#" onclick="navigateTo('orders'); return false;">My Orders</a>
-      <a href="#" onclick="navigateTo('returns'); return false;">Returns</a>
+      <a href="#shop" onclick="navigateTo('home'); document.getElementById('shop').scrollIntoView({behavior:'smooth'});" class="active" data-i18n="nav.shop">Shop</a>
+      <a href="#" onclick="navigateTo('orders'); return false;" data-i18n="nav.orders">My Orders</a>
+      <a href="#" onclick="navigateTo('returns'); return false;" data-i18n="nav.returns">Returns</a>
+      <div class="lang-selector">
+        <button class="lang-btn" onclick="toggleLangDropdown(event)" id="langActiveBtn">
+          <i class="fa-solid fa-globe"></i> <span id="currentLangText">EN</span> <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;opacity:0.6;"></i>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <a href="#" onclick="changeLanguage('en', event)">EN / English</a>
+          <a href="#" onclick="changeLanguage('zh', event)">ZH / 简体中文</a>
+          <a href="#" onclick="changeLanguage('fr', event)">FR / Français</a>
+          <a href="#" onclick="changeLanguage('de', event)">DE / Deutsch</a>
+          <a href="#" onclick="changeLanguage('es', event)">ES / Español</a>
+          <a href="#" onclick="changeLanguage('ja', event)">JA / 日本語</a>
+        </div>
+      </div>
       <button class="nav-cart" onclick="toggleCart()" aria-label="Cart">
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="cart-badge" id="cartBadge">0</span>
@@ -1036,23 +1443,22 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
   <!-- HERO -->
   <section class="hero" id="home">
+    <canvas class="canvas-bg-container" id="hero-canvas"></canvas>
     <div class="container">
       <div class="hero-content">
-        <p class="hero-eyebrow">New Collection · Spring 2026</p>
-        <h1>Where <em>warmth</em> meets <em>design</em></h1>
-        <p>Thoughtfully curated home essentials that transform everyday spaces into moments of beauty. Scandinavian simplicity with a soul.</p>
+        <p class="hero-eyebrow" data-i18n="hero.eyebrow">New Collection · Spring 2026</p>
+        <h1 data-i18n="hero.title">Where <em>warmth</em> meets <em>design</em></h1>
+        <p data-i18n="hero.desc">Thoughtfully curated home essentials that transform everyday spaces into moments of beauty. Scandinavian simplicity with a soul.</p>
         <div class="hero-buttons">
-          <button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+          <button class="btn btn-primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" data-i18n="hero.btn1">
             Explore Collection <i class="fa-solid fa-arrow-right"></i>
           </button>
-          <button class="btn btn-outline" onclick="navigateTo('orders')">
+          <button class="btn btn-outline" onclick="navigateTo('orders')" data-i18n="hero.btn2">
             Track Order
           </button>
         </div>
       </div>
-      <div class="hero-visual">
-        <img src="https://picsum.photos/seed/aurea-hero/600/750" alt="Modern living room with Aurea Home products" loading="eager">
-      </div>
+
       <div class="hero-decor hero-decor-1">✦</div>
       <div class="hero-decor hero-decor-2">◈</div>
     </div>
@@ -1062,19 +1468,19 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   <section class="section" id="shop">
     <div class="container">
       <div class="section-header">
-        <h2>Our Collection</h2>
-        <p>Every piece tells a story. Discover furnishings and décor crafted for the modern home.</p>
+        <h2 data-i18n="shop.title">Our Collection</h2>
+        <p data-i18n="shop.desc">Every piece tells a story. Discover furnishings and décor crafted for the modern home.</p>
       </div>
 
       <!-- Category Filters -->
       <div class="category-filters" id="categoryFilters">
-        <button class="cat-btn active" data-category="all">All</button>
-        <button class="cat-btn" data-category="Living Room">Living Room</button>
-        <button class="cat-btn" data-category="Bedroom">Bedroom</button>
-        <button class="cat-btn" data-category="Kitchen">Kitchen</button>
-        <button class="cat-btn" data-category="Decor">Decor</button>
-        <button class="cat-btn" data-category="Lighting">Lighting</button>
-        <button class="cat-btn" data-category="Outdoor">Outdoor</button>
+        <button class="cat-btn active" data-category="all" data-i18n="filter.all">All</button>
+        <button class="cat-btn" data-category="Living Room" data-i18n="filter.living">Living Room</button>
+        <button class="cat-btn" data-category="Bedroom" data-i18n="filter.bedroom">Bedroom</button>
+        <button class="cat-btn" data-category="Kitchen" data-i18n="filter.kitchen">Kitchen</button>
+        <button class="cat-btn" data-category="Decor" data-i18n="filter.decor">Decor</button>
+        <button class="cat-btn" data-category="Lighting" data-i18n="filter.lighting">Lighting</button>
+        <button class="cat-btn" data-category="Outdoor" data-i18n="filter.outdoor">Outdoor</button>
       </div>
 
       <!-- Product Grid -->
@@ -1200,13 +1606,13 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 <main id="page-orders" class="page">
   <div class="container">
     <div class="section-header">
-      <h2>My Orders</h2>
-      <p>Track your orders and view purchase history.</p>
+      <h2 data-i18n="orders.title">My Orders</h2>
+      <p data-i18n="orders.desc">Track your orders and view purchase history.</p>
     </div>
     <div class="orders-list" id="ordersList">
       <div class="orders-empty">
         <i class="fa-solid fa-box-open"></i>
-        <p>No orders yet. Start shopping to see your orders here.</p>
+        <p data-i18n="orders.empty">No orders yet. Start shopping to see your orders here.</p>
       </div>
     </div>
   </div>
@@ -1218,18 +1624,18 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 <main id="page-returns" class="page">
   <div class="container">
     <div class="section-header">
-      <h2>Returns & Exchanges</h2>
-      <p>We offer a 30-day return policy. Look up your order to get started.</p>
+      <h2 data-i18n="returns.title">Returns & Exchanges</h2>
+      <p data-i18n="returns.desc">We offer a 30-day return policy. Look up your order to get started.</p>
     </div>
 
     <!-- Order Lookup -->
     <div class="returns-lookup" id="returnsLookup">
       <div class="returns-lookup-card">
-        <h3>Look Up Your Order</h3>
-        <p>Enter your order number to start a return or exchange.</p>
+        <h3 data-i18n="returns.lookupTitle">Look Up Your Order</h3>
+        <p data-i18n="returns.lookupDesc">Enter your order number to start a return or exchange.</p>
         <div class="lookup-input-group">
           <input type="text" id="returnOrderId" placeholder="e.g. AUR-20260509-0001">
-          <button class="btn btn-primary" onclick="lookupReturnOrder()">Look Up</button>
+          <button class="btn btn-primary" onclick="lookupReturnOrder()" data-i18n="returns.lookupBtn">Look Up</button>
         </div>
         <p id="lookupError" style="color: var(--color-error); margin-top: var(--space-sm); display: none;"></p>
       </div>
@@ -1238,25 +1644,25 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
     <!-- Return Form -->
     <div class="returns-form-section" id="returnsFormSection">
       <div class="returns-form-card">
-        <h3>Return Request — Order <span id="returnOrderDisplayId"></span></h3>
+        <h3><span data-i18n="returns.reqTitle">Return Request</span> — Order <span id="returnOrderDisplayId"></span></h3>
         <div class="return-items-list" id="returnItemsList"></div>
         <div class="form-group">
-          <label for="returnReason">Reason for Return *</label>
+          <label for="returnReason" data-i18n="returns.reasonLabel">Reason for Return *</label>
           <select id="returnReason" required>
-            <option value="">Select a reason</option>
-            <option value="Defective">Item defective or damaged</option>
-            <option value="Wrong item">Received wrong item</option>
-            <option value="Not as described">Item not as described</option>
-            <option value="No longer needed">No longer needed</option>
-            <option value="Size/fit">Size or fit issue</option>
-            <option value="Other">Other</option>
+            <option value="" data-i18n="returns.reasonDefault">Select a reason</option>
+            <option value="Defective" data-i18n="returns.reason1">Item defective or damaged</option>
+            <option value="Wrong item" data-i18n="returns.reason2">Received wrong item</option>
+            <option value="Not as described" data-i18n="returns.reason3">Item not as described</option>
+            <option value="No longer needed" data-i18n="returns.reason4">No longer needed</option>
+            <option value="Size/fit" data-i18n="returns.reason5">Size or fit issue</option>
+            <option value="Other" data-i18n="returns.reason6">Other</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="returnComments">Additional Comments</label>
+          <label for="returnComments" data-i18n="returns.commentsLabel">Additional Comments</label>
           <textarea id="returnComments" placeholder="Please provide any additional details..."></textarea>
         </div>
-        <button class="btn btn-primary" onclick="submitReturn()">Submit Return Request</button>
+        <button class="btn btn-primary" onclick="submitReturn()" data-i18n="returns.submitBtn">Submit Return Request</button>
         <p id="returnSubmitMsg" style="margin-top: var(--space-sm); display: none;"></p>
       </div>
     </div>
@@ -1264,9 +1670,9 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
     <!-- Returns History -->
     <div class="returns-history" id="returnsHistorySection">
       <div class="returns-history-card">
-        <h3 style="margin-bottom: var(--space-lg);">Your Return Requests</h3>
+        <h3 style="margin-bottom: var(--space-lg);" data-i18n="returns.historyTitle">Your Return Requests</h3>
         <div id="returnsHistoryList">
-          <p style="color: var(--color-text-muted); text-align: center;">No return requests yet.</p>
+          <p style="color: var(--color-text-muted); text-align: center;" data-i18n="returns.empty">No return requests yet.</p>
         </div>
       </div>
     </div>
@@ -1373,6 +1779,48 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   </div>
 </main>
 
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <div class="footer-brand">AURÉA<span>HOME</span></div>
+        <p data-i18n="footer.about">Thoughtfully curated home essentials that transform everyday spaces into moments of beauty. Scandinavian simplicity with a soul.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.shopTitle">Shop</h4>
+        <a href="#shop" onclick="navigateTo('home'); document.getElementById('shop').scrollIntoView({behavior:'smooth'});" data-i18n="nav.shop">Shop</a>
+        <a href="#" onclick="navigateTo('orders'); return false;" data-i18n="nav.orders">My Orders</a>
+        <a href="#" onclick="navigateTo('returns'); return false;" data-i18n="nav.returns">Returns</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.supportTitle">Support</h4>
+        <a href="https://t.me/aurea_support" target="_blank"><i class="fa-brands fa-telegram" style="margin-right:0.5rem;color:#0088cc;"></i>Telegram</a>
+        <a href="https://x.com/aurea_home" target="_blank"><i class="fa-brands fa-x-twitter" style="margin-right:0.5rem;color:#ffffff;"></i>Twitter / X</a>
+        <a href="https://instagram.com/aurea_home" target="_blank"><i class="fa-brands fa-instagram" style="margin-right:0.5rem;color:#e1306c;"></i>Instagram</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.newsletterTitle">Newsletter</h4>
+        <p style="font-size:0.85rem;color:oklch(0.8 0.01 70);margin-bottom:var(--space-sm);" data-i18n="footer.newsletterDesc">Subscribe to receive updates, access to exclusive deals, and more.</p>
+        <div class="newsletter-input">
+          <input type="email" placeholder="Enter your email" id="newsletterEmail">
+          <button onclick="showToast('Thank you for subscribing!')" data-i18n="footer.subscribe">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer.rights">© 2026 AURÉA HOME. All rights reserved.</p>
+      <div class="social-links">
+        <a href="https://t.me/aurea_support" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://x.com/aurea_home" target="_blank" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://instagram.com/aurea_home" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 <!-- Lightbox -->
 <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
@@ -1421,6 +1869,54 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
      TOAST
      ============================================================ -->
 <div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     FLOATING CUSTOMER SUPPORT PANEL
+     ============================================================ -->
+<div class="support-floater" id="supportFloater">
+  <button class="support-trigger" onclick="toggleSupportPanel(event)" id="langActiveBtnSupport" aria-label="Customer Support">
+    <i class="fa-solid fa-headset"></i>
+    <span class="pulse-dot"></span>
+  </button>
+  <div class="support-card" id="supportCard">
+    <div class="support-card-header">
+      <div class="header-info">
+        <span class="live-dot"></span>
+        <h4 data-i18n="support.panelTitle">Live Support</h4>
+      </div>
+      <button class="close-btn" onclick="toggleSupportPanel(event)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="support-card-body">
+      <p data-i18n="support.panelDesc">Hello! How can we help you today? Contact us through any of our channels below:</p>
+      <div class="support-options">
+        <a href="https://t.me/aurea_support" target="_blank" class="support-option-item tg">
+          <i class="fa-brands fa-telegram"></i>
+          <div>
+            <h5>Telegram Support</h5>
+            <span data-i18n="support.activeText">Typically replies instantly</span>
+          </div>
+          <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+        <a href="https://x.com/aurea_home" target="_blank" class="support-option-item x-tw">
+          <i class="fa-brands fa-x-twitter"></i>
+          <div>
+            <h5>Twitter / X</h5>
+            <span data-i18n="support.xDesc">Latest updates & announcements</span>
+          </div>
+          <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+        <a href="https://instagram.com/aurea_home" target="_blank" class="support-option-item insta">
+          <i class="fa-brands fa-instagram"></i>
+          <div>
+            <h5>Instagram</h5>
+            <span data-i18n="support.instaDesc">Design inspiration & catalog</span>
+          </div>
+          <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ============================================================
      PAYPAL SDK
@@ -1824,23 +2320,29 @@ function renderProducts(filter = 'all') {
   const grid = document.getElementById('productGrid');
   const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
   grid.innerHTML = filtered.map((p, i) => {
+    // 支持全球六国语言动态字段映射通用化
+    const translation = (typeof currentLang !== 'undefined' && typeof productTranslations !== 'undefined' && productTranslations[currentLang]) ? productTranslations[currentLang][p.id] : null;
+    const name = translation ? translation.name : p.name;
+    const category = translation ? translation.category : p.category;
+    const badge = translation ? (translation.badge || p.badge) : p.badge;
+
     const stars = Array.from({ length: 5 }, (_, j) =>
       j < Math.round(p.rating) ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'
     ).join('');
     const discount = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) + '% OFF' : '';
     return `
-      <div class="product-card" onclick="openProductDetail(${p.id})" style="animation-delay: ${i * 60}ms">
+      <div class="product-card reveal-on-scroll" onclick="openProductDetail(${p.id})" style="animation-delay: ${i * 60}ms">
         <div class="product-image">
-          <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <img src="${p.image}" alt="${name}" loading="lazy">
           ${discount ? `<span class="product-tag">${discount}</span>` : ''}
-          ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+          ${badge ? `<span class="product-badge">${badge}</span>` : ''}
           <button class="product-quick-add" onclick="event.stopPropagation(); quickAdd(${p.id})" title="Quick Add">
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
         <div class="product-info">
-          <p class="product-category">${p.category}</p>
-          <h3 class="product-name">${p.name}</h3>
+          <p class="product-category">${category}</p>
+          <h3 class="product-name">${name}</h3>
           <div class="product-rating">${stars} <span>(${p.reviews})</span></div>
           <div class="product-price">
             ${formatPrice(p.price)}
@@ -1850,6 +2352,10 @@ function renderProducts(filter = 'all') {
       </div>
     `;
   }).join('');
+
+  // 重新绑定 3D Tilt 卡片视差效果与滚动显现（中文全注释）
+  if (typeof initTiltCards === 'function') initTiltCards();
+  if (typeof initScrollReveal === 'function') initScrollReveal();
 }
 
 /* ================================================================
@@ -1878,13 +2384,19 @@ function openProductDetail(productId) {
 }
 
 function renderProductDetail(p) {
+  // 支持全球六国语言动态字段映射通用化
+  const translation = (typeof currentLang !== 'undefined' && typeof productTranslations !== 'undefined' && productTranslations[currentLang]) ? productTranslations[currentLang][p.id] : null;
+  const name = translation ? translation.name : p.name;
+  const category = translation ? translation.category : p.category;
+  const desc = translation ? translation.desc : p.desc;
+
   // Breadcrumb
-  document.getElementById('detailCategory').textContent = p.category;
-  document.getElementById('detailName').textContent = p.name;
-  document.getElementById('detailCategory2').textContent = p.category;
+  document.getElementById('detailCategory').textContent = category;
+  document.getElementById('detailName').textContent = name;
+  document.getElementById('detailCategory2').textContent = category;
 
   // Title
-  document.getElementById('detailTitle').textContent = p.name;
+  document.getElementById('detailTitle').textContent = name;
 
   // Rating
   const stars = Array.from({ length: 5 }, (_, j) =>
@@ -1909,7 +2421,7 @@ function renderProductDetail(p) {
   document.getElementById('detailAddPrice').textContent = formatPrice(p.price);
 
   // Description
-  document.getElementById('detailDesc').textContent = p.desc;
+  document.getElementById('detailDesc').textContent = desc;
 
   // Variants
   if (p.variants && p.variants.length > 1) {
@@ -2073,23 +2585,31 @@ function switchDetailTab(tabName) {
 function renderRelatedProducts(p) {
   const related = products.filter(x => x.category === p.category && x.id !== p.id).slice(0, 4);
   document.getElementById('relatedProducts').innerHTML = related.map(r => {
+    // 翻译相关商品的字段（全球六国语言动态字段映射通用化）
+    const translation = (typeof currentLang !== 'undefined' && typeof productTranslations !== 'undefined' && productTranslations[currentLang]) ? productTranslations[currentLang][r.id] : null;
+    const name = translation ? translation.name : r.name;
+    const category = translation ? translation.category : r.category;
+
     const stars = Array.from({ length: 5 }, (_, j) =>
       j < Math.round(r.rating) ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'
     ).join('');
     return `
-      <div class="product-card" onclick="openProductDetail(${r.id})" style="animation:none;">
+      <div class="product-card reveal-on-scroll" onclick="openProductDetail(${r.id})" style="animation:none;">
         <div class="product-image">
-          <img src="${r.image}" alt="${r.name}" loading="lazy">
+          <img src="${r.image}" alt="${name}" loading="lazy">
         </div>
         <div class="product-info">
-          <p class="product-category">${r.category}</p>
-          <h3 class="product-name">${r.name}</h3>
+          <p class="product-category">${category}</p>
+          <h3 class="product-name">${name}</h3>
           <div class="product-rating">${stars} <span>(${r.reviews})</span></div>
           <div class="product-price">${formatPrice(r.price)}</div>
         </div>
       </div>
     `;
   }).join('');
+
+  if (typeof initTiltCards === 'function') initTiltCards();
+  if (typeof initScrollReveal === 'function') initScrollReveal();
 }
 
 /* ---- Detail Qty & Add ---- */
@@ -2121,6 +2641,17 @@ function quickAdd(productId) {
    CART LOGIC
    ================================================================ */
 function addToCart(product, qty, variant) {
+  // 触发商品图片飞向右上角购物车的精致抛物线特效（中文注释）
+  try {
+    const cardImg = document.querySelector(`.product-card[onclick*="(${product.id})"] .product-image img`) || 
+                    document.getElementById('galleryMainImg');
+    if (cardImg && typeof animateFlyToCart === 'function') {
+      animateFlyToCart(cardImg, product.image);
+    }
+  } catch (e) {
+    console.warn('抛物线飞入动画执行失败：', e);
+  }
+
   const existing = cart.find(c => c.productId === product.id && c.variant === variant);
   if (existing) {
     existing.qty += qty;
@@ -2396,12 +2927,14 @@ function launchConfetti() {
 function renderOrders() {
   const container = document.getElementById('ordersList');
   if (orders.length === 0) {
+    const emptyText = (translations[currentLang] && translations[currentLang]['orders.empty']) ? translations[currentLang]['orders.empty'] : 'No orders yet. Start shopping to see your orders here.';
+    const browseText = (translations[currentLang] && translations[currentLang]['orders.browseBtn']) ? translations[currentLang]['orders.browseBtn'] : 'Browse Collection';
     container.innerHTML = `
       <div class="orders-empty">
         <i class="fa-solid fa-box-open"></i>
-        <p>No orders yet. Start shopping to see your orders here.</p>
+        <p>${emptyText}</p>
         <button class="btn btn-outline btn-sm" style="margin-top:1rem;" onclick="navigateTo('home'); document.getElementById('shop').scrollIntoView({behavior:'smooth'});">
-          Browse Collection
+          ${browseText}
         </button>
       </div>`;
     return;
@@ -2409,9 +2942,23 @@ function renderOrders() {
 
   container.innerHTML = orders.map((order, idx) => {
     const statusClass = 'status-' + order.status.toLowerCase();
-    const dateStr = new Date(order.date).toLocaleDateString('en-US', {
+    
+    // 多语言本地化日期显示
+    const langLocaleMap = { en: 'en-US', zh: 'zh-CN', fr: 'fr-FR', de: 'de-DE', es: 'es-ES', ja: 'ja-JP' };
+    const locale = langLocaleMap[currentLang] || 'en-US';
+    const dateStr = new Date(order.date).toLocaleDateString(locale, {
       year: 'numeric', month: 'long', day: 'numeric'
     });
+
+    // 订单状态多语言映射
+    const statusMap = {
+      'Completed': { en: 'Completed', zh: '已完成', fr: 'Terminée', de: 'Abgeschlossen', es: 'Completado', ja: '配達完了' },
+      'Shipped': { en: 'Shipped', zh: '已发货', fr: 'Expédiée', de: 'Versandt', es: 'Enviado', ja: '発送済み' },
+      'Processing': { en: 'Processing', zh: '处理中', fr: 'En cours', de: 'In Bearbeitung', es: 'En proceso', ja: '処理中' }
+    };
+    const statusText = (statusMap[order.status] && statusMap[order.status][currentLang]) ? statusMap[order.status][currentLang] : order.status;
+    const shippingPrefix = (translations[currentLang] && translations[currentLang]['orders.shippingTo']) ? translations[currentLang]['orders.shippingTo'] : 'Shipping to:';
+
     return `
       <div class="order-card">
         <div class="order-card-header" onclick="toggleOrderDetails(${idx})">
@@ -2420,26 +2967,31 @@ function renderOrders() {
             <span class="order-date" style="margin-left:1rem;">${dateStr}</span>
           </div>
           <div style="display:flex;align-items:center;gap:1rem;">
-            <span class="order-status ${statusClass}">${order.status}</span>
+            <span class="order-status ${statusClass}">${statusText}</span>
             <span style="font-weight:700;">${formatPrice(order.total)}</span>
             <i class="fa-solid fa-chevron-down" id="orderChevron${idx}" style="transition: transform 300ms var(--ease-out-quart);"></i>
           </div>
         </div>
         <div class="order-card-body" id="orderBody${idx}">
           <div class="order-items-list">
-            ${order.items.map(item => `
-              <div class="order-item-row">
-                <img src="${item.image}" alt="${item.name}">
-                <div class="order-item-info">
-                  <p class="name">${item.name}</p>
-                  <p class="meta">${item.variant} × ${item.qty}</p>
-                  <p class="total">${formatPrice(item.price * item.qty)}</p>
+            ${order.items.map(item => {
+              // 订单内商品名多语言映射
+              const pTranslation = (typeof productTranslations !== 'undefined' && productTranslations[currentLang]) ? productTranslations[currentLang][item.id] : null;
+              const name = pTranslation ? pTranslation.name : item.name;
+              return `
+                <div class="order-item-row">
+                  <img src="${item.image}" alt="${name}">
+                  <div class="order-item-info">
+                    <p class="name">${name}</p>
+                    <p class="meta">${item.variant} × ${item.qty}</p>
+                    <p class="total">${formatPrice(item.price * item.qty)}</p>
+                  </div>
                 </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
           <div style="margin-top:var(--space-md); padding-top:var(--space-md); border-top:1px solid var(--color-border-light); font-size:0.85rem; color:var(--color-text-muted);">
-            <p>Shipping to: ${order.shipping.firstName} ${order.shipping.lastName}, ${order.shipping.address}, ${order.shipping.city}, ${order.shipping.zip}, ${order.shipping.country}</p>
+            <p>${shippingPrefix} ${order.shipping.firstName} ${order.shipping.lastName}, ${order.shipping.address}, ${order.shipping.city}, ${order.shipping.zip}, ${order.shipping.country}</p>
           </div>
         </div>
       </div>
@@ -2557,21 +3109,50 @@ function submitReturn() {
 function renderReturnsHistory() {
   const container = document.getElementById('returnsHistoryList');
   if (returns.length === 0) {
-    container.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">No return requests yet.</p>';
+    const emptyText = (translations[currentLang] && translations[currentLang]['returns.empty']) ? translations[currentLang]['returns.empty'] : 'No return requests yet.';
+    container.innerHTML = `<p style="color: var(--color-text-muted); text-align: center;">${emptyText}</p>`;
     return;
   }
 
   container.innerHTML = returns.map(r => {
     const statusClass = 'return-' + r.status.toLowerCase();
-    const dateStr = new Date(r.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    
+    // 多语言本地化日期显示
+    const langLocaleMap = { en: 'en-US', zh: 'zh-CN', fr: 'fr-FR', de: 'de-DE', es: 'es-ES', ja: 'ja-JP' };
+    const locale = langLocaleMap[currentLang] || 'en-US';
+    const dateStr = new Date(r.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // 字段前缀多语言获取
+    const orderLabel = (translations[currentLang] && translations[currentLang]['returns.orderLabel']) ? translations[currentLang]['returns.orderLabel'] : 'Order';
+    const itemsCountLabel = (translations[currentLang] && translations[currentLang]['returns.itemsCount']) ? translations[currentLang]['returns.itemsCount'] : 'item(s)';
+    const reasonPrefix = (translations[currentLang] && translations[currentLang]['returns.reasonText']) ? translations[currentLang]['returns.reasonText'] : 'Reason:';
+
+    // 退货原因的六国多语言映射
+    const reasonMap = {
+      'Defective': { en: 'Item defective or damaged', zh: '商品破损或有瑕疵', fr: 'Article défectueux ou endommagé', de: 'Artikel defekt oder beschädigt', es: 'Artículo defectuoso o dañado', ja: '商品の破損・欠陥' },
+      'Wrong item': { en: 'Received wrong item', zh: '卖家发错货', fr: 'Reçu le mauvais article', de: 'Falscher Artikel erhalten', es: 'Recibí el artículo incorrecto', ja: '届いた商品が異なる' },
+      'Not as described': { en: 'Item not as described', zh: '实物与描述不符', fr: 'Article non conforme à la description', de: 'Artikel entspricht nicht der Beschreibung', es: 'Artículo no es como se describe', ja: '商品説明と異なる' },
+      'No longer needed': { en: 'No longer needed', zh: '计划有变/不需要了', fr: 'Plus nécessaire', de: 'Nicht mehr benötigt', es: 'Ya no lo necesito', ja: '不要になった' },
+      'Size/fit': { en: 'Size or fit issue', zh: '尺码或版型不合身', fr: 'Problème de taille / ajustement', de: 'Größe / Passform unpassend', es: 'Problema de talla o ajuste', ja: 'サイズ・フィット感が合わない' },
+      'Other': { en: 'Other', zh: '其他原因', fr: 'Autre', de: 'Andere', es: 'Otro', ja: 'その他' }
+    };
+    const reasonTextDisplay = (reasonMap[r.reason] && reasonMap[r.reason][currentLang]) ? reasonMap[r.reason][currentLang] : r.reason;
+
+    // 审批状态多语言映射
+    const returnStatusMap = {
+      'Pending': { en: 'Pending', zh: '审核中', fr: 'En attente', de: 'Ausstehend', es: 'Pendiente', ja: '審査中' },
+      'Approved': { en: 'Approved', zh: '已批准', fr: 'Approuvé', de: 'Genehmigt', es: 'Aprobado', ja: '承認済み' }
+    };
+    const returnStatusText = (returnStatusMap[r.status] && returnStatusMap[r.status][currentLang]) ? returnStatusMap[r.status][currentLang] : r.status;
+
     return `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-md)0;border-bottom:1px solid var(--color-border-light);">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) 0;border-bottom:1px solid var(--color-border-light);">
         <div>
           <p style="font-weight:700;">${r.id}</p>
-          <p style="font-size:0.85rem;color:var(--color-text-muted);">Order #${r.orderId} · ${dateStr} · ${r.items.length} item(s)</p>
-          <p style="font-size:0.85rem;color:var(--color-text-muted);">Reason: ${r.reason}</p>
+          <p style="font-size:0.85rem;color:var(--color-text-muted);">${orderLabel} #${r.orderId} · ${dateStr} · ${r.items.length} ${itemsCountLabel}</p>
+          <p style="font-size:0.85rem;color:var(--color-text-muted);">${reasonPrefix} ${reasonTextDisplay}</p>
         </div>
-        <span class="return-status-badge ${statusClass}">${r.status}</span>
+        <span class="return-status-badge ${statusClass}">${returnStatusText}</span>
       </div>
     `;
   }).join('');
@@ -2596,12 +3177,533 @@ window.addEventListener('scroll', () => {
   }
 });
 
+// ============================================================
+// 多语言国际化（i18n）六国语言超级字典与控制引擎
+// ============================================================
+var currentLang = sessionStorage.getItem('aurea_lang') || 'en';
+
+var translations = {
+  en: {
+    'nav.shop': 'Shop',
+    'nav.orders': 'My Orders',
+    'nav.returns': 'Returns',
+    'hero.eyebrow': 'New Collection · Spring 2026',
+    'hero.title': 'Where <em>warmth</em> meets <em>design</em>',
+    'hero.desc': 'Thoughtfully curated home essentials that transform everyday spaces into moments of beauty. Scandinavian simplicity with a soul.',
+    'hero.btn1': 'Explore Collection <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': 'Track Order',
+    'shop.title': 'Our Collection',
+    'shop.desc': 'Every piece tells a story. Discover furnishings and décor crafted for the modern home.',
+    'filter.all': 'All',
+    'filter.living': 'Living Room',
+    'filter.bedroom': 'Bedroom',
+    'filter.kitchen': 'Kitchen',
+    'filter.decor': 'Decor',
+    'filter.lighting': 'Lighting',
+    'filter.outdoor': 'Outdoor',
+    'orders.title': 'My Orders',
+    'orders.desc': 'Track your orders and view purchase history.',
+    'returns.title': 'Returns & Exchanges',
+    'returns.desc': 'We offer a 30-day return policy. Look up your order to get started.',
+    'returns.lookupTitle': 'Look Up Your Order',
+    'returns.lookupDesc': 'Enter your order number to start a return or exchange.',
+    'returns.lookupBtn': 'Look Up',
+    'returns.reqTitle': 'Return Request',
+    'returns.reasonLabel': 'Reason for Return *',
+    'returns.reasonDefault': 'Select a reason',
+    'returns.reason1': 'Item defective or damaged',
+    'returns.reason2': 'Received wrong item',
+    'returns.reason3': 'Item not as described',
+    'returns.reason4': 'No longer needed',
+    'returns.reason5': 'Size or fit issue',
+    'returns.reason6': 'Other',
+    'returns.commentsLabel': 'Additional Comments',
+    'returns.submitBtn': 'Submit Return Request',
+    'returns.historyTitle': 'Your Return Requests',
+    'orders.empty': 'No orders yet. Start shopping to see your orders here.',
+    'orders.browseBtn': 'Browse Collection',
+    'orders.shippingTo': 'Shipping to:',
+    'returns.empty': 'No return requests yet.',
+    'returns.reasonText': 'Reason:',
+    'returns.itemsCount': 'item(s)',
+    'returns.orderLabel': 'Order',
+    'footer.about': 'Thoughtfully curated home essentials that transform everyday spaces into moments of beauty. Scandinavian simplicity with a soul.',
+    'footer.shopTitle': 'Shop',
+    'footer.supportTitle': 'Support',
+    'footer.newsletterTitle': 'Newsletter',
+    'footer.newsletterDesc': 'Subscribe to receive updates, access to exclusive deals, and more.',
+    'footer.subscribe': 'Subscribe',
+    'footer.rights': '© 2026 AURÉA HOME. All rights reserved.',
+    'support.panelTitle': 'Live Support',
+    'support.panelDesc': 'Hello! How can we help you today? Contact us through any of our channels below:',
+    'support.activeText': 'Typically replies instantly',
+    'support.xDesc': 'Latest updates & announcements',
+    'support.instaDesc': 'Design inspiration & catalog'
+  },
+  zh: {
+    'nav.shop': '极简生活馆',
+    'nav.orders': '我的订单',
+    'nav.returns': '自助退换',
+    'hero.eyebrow': '新品臻选 · 2026 春季首发',
+    'hero.title': '当<em>温暖</em>遇见<em>设计</em>',
+    'hero.desc': '以匠心雕琢每一件家居器物，让平凡的日子在空间之美中熠熠生辉。注入灵魂的北欧极简之美。',
+    'hero.btn1': '即刻探索 <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': '订单追踪',
+    'shop.title': '臻选好物',
+    'shop.desc': '每一件器物，都有它的故事。探索专为现代生活空间打造的高端家居与精美装饰。',
+    'filter.all': '全部商品',
+    'filter.living': '温馨客厅',
+    'filter.bedroom': '静谧卧室',
+    'filter.kitchen': '格调厨房',
+    'filter.decor': '艺术装饰',
+    'filter.lighting': '暖心灯具',
+    'filter.outdoor': '户外野趣',
+    'orders.title': '我的订单',
+    'orders.desc': '跟踪订单物流状态与购买历史记录。',
+    'returns.title': '自助退换货中心',
+    'returns.desc': '我们提供 30 天无忧退换货保障。请输入订单号开始自助申请。',
+    'returns.lookupTitle': '快速查询订单',
+    'returns.lookupDesc': '请输入您的订单编号以申请退换货。',
+    'returns.lookupBtn': '立即查询',
+    'returns.reqTitle': '自助退换货申请',
+    'returns.reasonLabel': '退换货原因 *',
+    'returns.reasonDefault': '请选择退换原因',
+    'returns.reason1': '商品破损或有瑕疵',
+    'returns.reason2': '卖家发错货',
+    'returns.reason3': '实物与描述不符',
+    'returns.reason4': '计划有变/不需要了',
+    'returns.reason5': '尺码或版型不合身',
+    'returns.reason6': '其他原因',
+    'returns.commentsLabel': '补充备注说明',
+    'returns.submitBtn': '提交退换货申请',
+    'returns.historyTitle': '您的退换货记录',
+    'orders.empty': '暂无订单记录。赶紧去挑选心仪的家居好物吧！',
+    'orders.browseBtn': '探索极简生活馆',
+    'orders.shippingTo': '收货地址：',
+    'returns.empty': '暂无退换货申请记录。',
+    'returns.reasonText': '退换原因：',
+    'returns.itemsCount': '件商品',
+    'returns.orderLabel': '订单',
+    'footer.about': '以匠心雕琢每一件家居器物，让平凡的日子在空间之美中熠熠生辉。注入灵魂的北欧极简之美。',
+    'footer.shopTitle': '极简生活馆',
+    'footer.supportTitle': '专属客服中心',
+    'footer.newsletterTitle': '新品订阅',
+    'footer.newsletterDesc': '订阅我们以获取最新产品资讯、尊享专属折扣等更多好礼。',
+    'footer.subscribe': '立即订阅',
+    'footer.rights': '© 2026 AURÉA HOME. 保留所有权利。',
+    'support.panelTitle': '在线客服',
+    'support.panelDesc': '您好！今天有什么我可以帮您的？您可以通过以下任意渠道与我们取得联系：',
+    'support.activeText': '官方在线客服 · 秒级回复',
+    'support.xDesc': '获取官方最新动态与通知',
+    'support.instaDesc': '家居生活灵感与精选图集'
+  },
+  fr: {
+    'nav.shop': 'Boutique',
+    'nav.orders': 'Mes Commandes',
+    'nav.returns': 'Retours',
+    'hero.eyebrow': 'Nouvelle Collection · Printemps 2026',
+    'hero.title': 'Là où la <em>chaleur</em> rencontre le <em>design</em>',
+    'hero.desc': 'Des objets de maison soigneusement sélectionnés qui transforment les espaces quotidiens en moments de beauté. Simplicité scandinave dotée d\'une âme.',
+    'hero.btn1': 'Explorer la Collection <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': 'Suivre la Commande',
+    'shop.title': 'Notre Collection',
+    'shop.desc': 'Chaque pièce raconte une histoire. Découvrez des meubles et décors conçus pour la maison moderne.',
+    'filter.all': 'Tout',
+    'filter.living': 'Salon',
+    'filter.bedroom': 'Chambre',
+    'filter.kitchen': 'Cuisine',
+    'filter.decor': 'Décoration',
+    'filter.lighting': 'Éclairage',
+    'filter.outdoor': 'Plein Air',
+    'orders.title': 'Mes Commandes',
+    'orders.desc': 'Suivez vos commandes et consultez votre historique d\'achats.',
+    'returns.title': 'Retours & Échanges',
+    'returns.desc': 'Nous offrons une politique de retour de 30 jours. Recherchez votre commande pour commencer.',
+    'returns.lookupTitle': 'Rechercher Votre Commande',
+    'returns.lookupDesc': 'Saisissez votre numéro de commande pour commencer un retour.',
+    'returns.lookupBtn': 'Rechercher',
+    'returns.reqTitle': 'Demande de Retour',
+    'returns.reasonLabel': 'Motif du retour *',
+    'returns.reasonDefault': 'Sélectionnez un motif',
+    'returns.reason1': 'Article défectueux ou endommagé',
+    'returns.reason2': 'Reçu le mauvais article',
+    'returns.reason3': 'Article non conforme à la description',
+    'returns.reason4': 'Plus nécessaire',
+    'returns.reason5': 'Problème de taille / ajustement',
+    'returns.reason6': 'Autre',
+    'returns.commentsLabel': 'Commentaires supplémentaires',
+    'returns.submitBtn': 'Soumettre la demande',
+    'returns.historyTitle': 'Vos Demandes de Retour',
+    'orders.empty': 'Aucune commande pour le moment. Commencez vos achats.',
+    'orders.browseBtn': 'Découvrir la Collection',
+    'orders.shippingTo': 'Livraison à:',
+    'returns.empty': 'Aucune demande de retour.',
+    'returns.reasonText': 'Motif:',
+    'returns.itemsCount': 'article(s)',
+    'returns.orderLabel': 'Commande',
+    'footer.about': 'Des objets de maison soigneusement sélectionnés qui transforment les espaces quotidiens en moments de beauté. Simplicité scandinave dotée d\'une âme.',
+    'footer.shopTitle': 'Boutique',
+    'footer.supportTitle': 'Assistance',
+    'footer.newsletterTitle': 'Lettre d\'information',
+    'footer.newsletterDesc': 'Abonnez-vous pour recevoir des mises à jour, accéder à des offres exclusives et plus encore.',
+    'footer.subscribe': 'S\'abonner',
+    'footer.rights': '© 2026 AURÉA HOME. Tous droits réservés.',
+    'support.panelTitle': 'Assistance en Direct',
+    'support.panelDesc': 'Bonjour ! Comment pouvons-nous vous aider aujourd\'hui ? Contactez-nous via l\'un de nos canaux ci-dessous :',
+    'support.activeText': 'Répond généralement instantanément',
+    'support.xDesc': 'Dernières mises à jour et annonces',
+    'support.instaDesc': 'Inspirations de design & catalogue'
+  },
+  de: {
+    'nav.shop': 'Shop',
+    'nav.orders': 'Meine Bestellungen',
+    'nav.returns': 'Rücksendungen',
+    'hero.eyebrow': 'Neue Kollektion · Frühjahr 2026',
+    'hero.title': 'Wo <em>Wärme</em> auf <em>Design</em> trifft',
+    'hero.desc': 'Liebevoll kuratierte Wohnaccessoires, die alltägliche Räume in Momente der Schönheit verwandeln. Skandinavische Einfachheit mit Seele.',
+    'hero.btn1': 'Kollektion Entdecken <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': 'Bestellung Verfolgen',
+    'shop.title': 'Unsere Kollektion',
+    'shop.desc': 'Jedes Stück erzählt eine Geschichte. Entdecken Sie Möbel und Dekorationen für das moderne Zuhause.',
+    'filter.all': 'Alle',
+    'filter.living': 'Wohnzimmer',
+    'filter.bedroom': 'Schlafzimmer',
+    'filter.kitchen': 'Küche',
+    'filter.decor': 'Dekoration',
+    'filter.lighting': 'Beleuchtung',
+    'filter.outdoor': 'Außenbereich',
+    'orders.title': 'Meine Bestellungen',
+    'orders.desc': 'Verfolgen Sie Ihre Bestellungen und sehen Sie sich Ihren Bestellverlauf an.',
+    'returns.title': 'Rückgabe & Umtausch',
+    'returns.desc': 'Wir bieten ein 30-tägiges Rückgaberecht. Suchen Sie nach Ihrer Bestellung.',
+    'returns.lookupTitle': 'Bestellung Suchen',
+    'returns.lookupDesc': 'Geben Sie Ihre Bestellnummer ein, um eine Rücksendung zu starten.',
+    'returns.lookupBtn': 'Suchen',
+    'returns.reqTitle': 'Rückgabeantrag',
+    'returns.reasonLabel': 'Grund für die Rückgabe *',
+    'returns.reasonDefault': 'Wählen Sie einen Grund',
+    'returns.reason1': 'Artikel defekt oder beschädigt',
+    'returns.reason2': 'Falscher Artikel erhalten',
+    'returns.reason3': 'Artikel entspricht nicht der Beschreibung',
+    'returns.reason4': 'Nicht mehr benötigt',
+    'returns.reason5': 'Größe / Passform unpassend',
+    'returns.reason6': 'Andere',
+    'returns.commentsLabel': 'Zusätzliche Kommentare',
+    'returns.submitBtn': 'Antrag Absenden',
+    'returns.historyTitle': 'Ihre Rückgabeanträge',
+    'orders.empty': 'Noch keine Bestellungen. Fangen Sie an einzukaufen.',
+    'orders.browseBtn': 'Kollektion Durchstöbern',
+    'orders.shippingTo': 'Versand an:',
+    'returns.empty': 'Noch keine Rückgabeanträge.',
+    'returns.reasonText': 'Grund:',
+    'returns.itemsCount': 'Artikel',
+    'returns.orderLabel': 'Bestellung',
+    'footer.about': 'Liebevoll kuratierte Wohnaccessoires, die alltägliche Räume in Momente der Schönheit verwandeln. Skandinavische Einfachheit mit Seele.',
+    'footer.shopTitle': 'Shop',
+    'footer.supportTitle': 'Support',
+    'footer.newsletterTitle': 'Newsletter',
+    'footer.newsletterDesc': 'Abonnieren Sie unseren Newsletter, um Updates, exklusive Angebote und mehr zu erhalten.',
+    'footer.subscribe': 'Abonnieren',
+    'footer.rights': '© 2026 AURÉA HOME. Alle Rechte vorbehalten.',
+    'support.panelTitle': 'Live-Support',
+    'support.panelDesc': 'Hallo! Wie können wir Ihnen heute helfen? Kontaktieren Sie uns über einen unserer folgenden Kanäle:',
+    'support.activeText': 'Antwortet in der Regel sofort',
+    'support.xDesc': 'Neueste Updates und Ankündigungen',
+    'support.instaDesc': 'Design-Inspirationen & Katalog'
+  },
+  es: {
+    'nav.shop': 'Tienda',
+    'nav.orders': 'Mis Pedidos',
+    'nav.returns': 'Devoluciones',
+    'hero.eyebrow': 'Nueva Colección · Primavera 2026',
+    'hero.title': 'Donde la <em>calidez</em> se une al <em>diseño</em>',
+    'hero.desc': 'Artículos esenciales para el hogar cuidadosamente seleccionados que transforman los espacios cotidianos en momentos de belleza. Simplicidad escandinava con alma.',
+    'hero.btn1': 'Explorar Colección <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': 'Seguir Pedido',
+    'shop.title': 'Nuestra Colección',
+    'shop.desc': 'Cada pieza cuenta una historia. Descubra muebles y decoración diseñados para el hogar moderno.',
+    'filter.all': 'Todo',
+    'filter.living': 'Salón',
+    'filter.bedroom': 'Dormitorio',
+    'filter.kitchen': 'Cocina',
+    'filter.decor': 'Decoración',
+    'filter.lighting': 'Iluminación',
+    'filter.outdoor': 'Exterior',
+    'orders.title': 'Mis Pedidos',
+    'orders.desc': 'Siga sus pedidos y vea su historial de compras.',
+    'returns.title': 'Devoluciones y Cambios',
+    'returns.desc': 'Ofrecemos una política de devolución de 30 días. Busque su pedido.',
+    'returns.lookupTitle': 'Buscar Su Pedido',
+    'returns.lookupDesc': 'Introduzca su número de pedido para comenzar.',
+    'returns.lookupBtn': 'Buscar',
+    'returns.reqTitle': 'Solicitud de Devolución',
+    'returns.reasonLabel': 'Motivo de la devolución *',
+    'returns.reasonDefault': 'Seleccione un motivo',
+    'returns.reason1': 'Artículo defectuoso o dañado',
+    'returns.reason2': 'Recibí el artículo incorrecto',
+    'returns.reason3': 'Artículo no es como se describe',
+    'returns.reason4': 'Ya no lo necesito',
+    'returns.reason5': 'Problema de talla o ajuste',
+    'returns.reason6': 'Otro',
+    'returns.commentsLabel': 'Comentarios adicionales',
+    'returns.submitBtn': 'Enviar solicitud',
+    'returns.historyTitle': 'Sus Solicitudes de Devolución',
+    'orders.empty': 'Aún no hay pedidos. Comience a comprar.',
+    'orders.browseBtn': 'Explorar la Colección',
+    'orders.shippingTo': 'Envío a:',
+    'returns.empty': 'Aún no hay solicitudes.',
+    'returns.reasonText': 'Motivo:',
+    'returns.itemsCount': 'artículo(s)',
+    'returns.orderLabel': 'Pedido',
+    'footer.about': 'Artículos esenciales para el hogar cuidadosamente seleccionados que transforman los espacios cotidianos en momentos de belleza. Simplicidad escandinava con alma.',
+    'footer.shopTitle': 'Tienda',
+    'footer.supportTitle': 'Soporte',
+    'footer.newsletterTitle': 'Boletín',
+    'footer.newsletterDesc': 'Suscríbase para recibir actualizaciones, acceder a ofertas exclusivas y más.',
+    'footer.subscribe': 'Suscribirse',
+    'footer.rights': '© 2026 AURÉA HOME. Todos los derechos reservados.',
+    'support.panelTitle': 'Soporte en Vivo',
+    'support.panelDesc': '¡Hola! ¿Cómo podemos ayudarte hoy? Contáctanos a través de cualquiera de nuestros canales a continuación:',
+    'support.activeText': 'Normalmente responde al instante',
+    'support.xDesc': 'Últimas actualizaciones y anuncios',
+    'support.instaDesc': 'Inspiración de diseño y catálogo'
+  },
+  ja: {
+    'nav.shop': 'ショップ',
+    'nav.orders': '注文履歴',
+    'nav.returns': '返品・交換',
+    'hero.eyebrow': '新規コレクション · 2026春',
+    'hero.title': '<em>温もり</em>と<em>デザイン</em>が交わる場所',
+    'hero.desc': '日常の空間を美しい瞬間に変える、こだわり抜かれたホームエッセンシャル。魂が宿るスカンジナビアのミニマリズム。',
+    'hero.btn1': 'コレクションを見る <i class="fa-solid fa-arrow-right"></i>',
+    'hero.btn2': '配送状況 of 追跡',
+    'shop.title': '私たちのコレクション',
+    'shop.desc': 'すべての作品に物語があります。現代の住まいのために作られた家具やデコレーションをご覧ください。',
+    'filter.all': 'すべて',
+    'filter.living': 'リビング',
+    'filter.bedroom': 'ベッドルーム',
+    'filter.kitchen': 'キッチン',
+    'filter.decor': 'インテリア',
+    'filter.lighting': '照明器具',
+    'filter.outdoor': 'アウトドア',
+    'orders.title': '注文履歴',
+    'orders.desc': '配送状況の追跡と購入履歴の確認ができます。',
+    'returns.title': '返品・交換手続き',
+    'returns.desc': '安心の30日間返品保証。注文番号を入力して申请を開始してください。',
+    'returns.lookupTitle': '注文の照会',
+    'returns.lookupDesc': '返品または交換を申請するには、注文番号を入力してください。',
+    'returns.lookupBtn': '照会する',
+    'returns.reqTitle': '返品リクエスト',
+    'returns.reasonLabel': '返品理由 *',
+    'returns.reasonDefault': '理由を選択してください',
+    'returns.reason1': '商品の破損・欠陥',
+    'returns.reason2': '届いた商品が異なる',
+    'returns.reason3': '商品説明と異なる',
+    'returns.reason4': '不要になった',
+    'returns.reason5': 'サイズ・フィット感が合わない',
+    'returns.reason6': 'その他',
+    'returns.commentsLabel': '追加のコメント说明',
+    'returns.submitBtn': '申請を送信する',
+    'returns.historyTitle': '返品申請履歴',
+    'orders.empty': 'まだ注文がありません。お買い物を始めてみましょう。',
+    'orders.browseBtn': 'コレクションを見る',
+    'orders.shippingTo': 'お届け先：',
+    'returns.empty': '返品リクエスト履歴はまだありません。',
+    'returns.reasonText': '理由：',
+    'returns.itemsCount': '点のアイテム',
+    'returns.orderLabel': 'ご注文',
+    'footer.about': '日常の空間を美しい瞬間に変える、こだわり抜かれたホームエッセンシャル。魂が宿るスカンジナビアのミニマリズム。',
+    'footer.shopTitle': 'ショップ',
+    'footer.supportTitle': 'カスタマーサポート',
+    'footer.newsletterTitle': 'メールマガジン',
+    'footer.newsletterDesc': '最新情報や限定セール、お得な情報をいち早くお届けします。',
+    'footer.subscribe': '購読する',
+    'footer.rights': '© 2026 AURÉA HOME. All rights reserved.',
+    'support.panelTitle': 'ライブチャットサポート',
+    'support.panelDesc': 'こんにちは！何かお困りのことはありますか？以下のサポートチャンネルからお気軽にお問い合わせください：',
+    'support.activeText': '通常、数秒以内に返信いたします',
+    'support.xDesc': '最新のアナウンスとイベント情報',
+    'support.instaDesc': 'デザインのインスピレーションとカタログ'
+  }
+};
+
+var productTranslations = {
+  zh: {
+    1: { name: '手工编织纯羊毛毯', category: '温馨客厅', badge: '畅销款', desc: '采用100%新西兰羊毛精心编织，为任何生活空间带来温暖与质感。经典的手工鲱鱼骨纹样倍显优雅。' },
+    2: { name: '极简手工陶瓷台灯', category: '温馨客厅', badge: '', desc: '雕塑般的陶瓷灯座搭配天然亚麻灯罩，营造温和悠闲的环境光芒。是边几、玄关台或床头柜的绝佳点缀。' },
+    3: { name: '有机亚麻羽绒被套组', category: '静谧卧室', badge: '好评如潮', desc: '源自欧洲的优质水洗亚麻羽绒被套组，越洗越柔软。吸湿透气、四季皆宜，尽显法式慵懒优雅。' },
+    4: { name: '艺术雕塑床头花瓶', category: '静谧卧室', badge: '', desc: '极简流畅的曲面雕塑感线条设计，即使不插花亦是一件极具现代艺术感的卧室桌面摆件。' },
+    5: { name: '手工粗陶磨砂餐具套组', category: '格调厨房', badge: '超值推荐', desc: '天然粗陶手工拉坯成型，表面覆盖低调温柔的磨砂亚光釉，给一日三餐增添古朴温厚的仪式感。' },
+    6: { name: '天然橄榄木双耳托盘', category: '格调厨房', badge: '', desc: '精选百年老橄榄木手工打磨，保留最本真独特的年轮纹理，硬度极高且带有天然淡淡木香，盛装餐食极美。' },
+    7: { name: '手工吹制玻璃微景观生态缸', category: '艺术装饰', badge: '艺术联名', desc: '圆润剔透的纯手工吹制玻璃器皿，内部已预置精美微景观，为室内注入一丝盎然生机与自然野趣。' },
+    8: { name: '北欧抽象莫兰迪壁画套组', category: '艺术装饰', badge: '', desc: '采用柔和温润的莫兰迪低饱和度色系绘制，画面包含抽象色块与极简线条，可自由组合提升客厅艺术感。' },
+    9: { name: '北欧极简吊灯', category: '暖心灯具', badge: '畅销新品', desc: '极简喇叭轮廓灯罩配合复古原木挂头，光线向下聚焦扩散，营造温馨的餐桌或吧台聚拢感。' },
+    10: { name: '复古铜线氛围装饰灯串', category: '暖心灯具', badge: '', desc: '极细可塑性古铜铜线，内嵌如繁星般的暖色微光珠，防水设计，无论是室内装饰还是户外露营皆能瞬间拉满氛围。' },
+    11: { name: '红陶多肉园艺花盆套组', category: '户外野趣', badge: '园艺必备', desc: '天然红陶高温烧制，具有极佳的透气与排水性能，搭配高低错落的多规格组合，给阳台带来意式托斯卡纳风情。' },
+    12: { name: '全天候户外防泼水靠枕', category: '户外野趣', badge: '', desc: '采用高支防泼水耐晒高分子面料，内置高弹透气珍珠棉，久坐不易塌陷，是庭院秋千与户外沙发的绝佳伴侣。' }
+  },
+  fr: {
+    1: { name: 'Couverture en Laine Tissée Main', category: 'Salon', badge: 'Best-seller', desc: 'Fabriquée en laine de Nouvelle-Zélande, cette couverture apporte chaleur et texture à votre salon.' },
+    2: { name: 'Lampe de Table en Céramique Minimaliste', category: 'Salon', badge: '', desc: 'Une base en céramique sculpturale associée à un abat-jour en lin pour une lumière douce.' },
+    3: { name: 'Parure de Couette en Lin Biologique', category: 'Chambre', badge: 'Mieux Noté', desc: 'Parure de couette en lin de lin européen qui s\'adoucit à chaque lavage.' },
+    4: { name: 'Vase de Chevet Sculptural', category: 'Chambre', badge: '', desc: 'Vase artistique aux lignes épurées qui sublime votre table de nuit.' },
+    5: { name: 'Service de Table en Grès Artisanal', category: 'Cuisine', badge: 'Top Offre', desc: 'Vaisselle en grès artisanal façonnée à la main avec une finition mate élégante.' },
+    6: { name: 'Planche de Serving en Bois d\'Olivier', category: 'Cuisine', badge: '', desc: 'Planche en bois d\'olivier massif poli à la main, grain de bois unique.' },
+    7: { name: 'Terrarium en Verre Soufflé Main', category: 'Décoration', badge: 'Édition Art', desc: 'Un écosystème miniature fascinant dans un contenant en verre soufflé à la bouche.' },
+    8: { name: 'Ensemble de Tableaux Morandi Abstraits', category: 'Décoration', badge: '', desc: 'Des impressions d\'art moderne minimalistes pour embellir vos murs.' },
+    9: { name: 'Suspension Nordique', category: 'Éclairage', badge: 'Nouveau', desc: 'Design scandinave emblématique alliant métal mat et bois chaleureux.' },
+    10: { name: 'Guirlande Lumineuse en Fil de Cuivre', category: 'Éclairage', badge: '', desc: 'Guirlande LED flexible créant une atmosphère féerique instantanée.' },
+    11: { name: 'Ensemble de Jardinières en Terre Cuite', category: 'Plein Air', badge: 'Essentiel', desc: 'Pots en terre cuite naturelle favorisant le bien-être de vos plantes.' },
+    12: { name: 'Coussin d\'Extérieur Imperméable', category: 'Plein Air', badge: '', desc: 'Coussin résistant aux intempéries apportant confort à votre jardin.' }
+  },
+  de: {
+    1: { name: 'Handgewebte Wolldecke', category: 'Wohnzimmer', badge: 'Bestseller', desc: 'Hergestellt aus 100% neuseeländischer Wolle, bringt diese Decke Wärme und Struktur.' },
+    2: { name: 'Minimalistische Keramik-Tischlampe', category: 'Wohnzimmer', badge: '', desc: 'Skulpturaler Keramiksockel kombiniert mit einem Leinenschirm für sanftes Licht.' },
+    3: { name: 'Bettwäsche-Set aus Bio-Leinen', category: 'Schlafzimmer', badge: 'Beliebt', desc: 'Bettbezug aus europäischem Flachsleinen, der mit jeder Wäsche weicher wird.' },
+    4: { name: 'Skulpturale Nachttischvase', category: 'Schlafzimmer', badge: '', desc: 'Kunstvolle Vase mit minimalistischen Kurven zur Verschönerung Ihres Schlafzimmers.' },
+    5: { name: 'Handgefertigtes Steingut-Geschirrset', category: 'Küche', badge: 'Empfehlung', desc: 'Handgefertigtes Geschirr aus Steingut mit eleganter, matter Glasur.' },
+    6: { name: 'Servierbrett aus Olivenholz', category: 'Küche', badge: '', desc: 'Massives Olivenholz-Servierbrett, handpoliert mit einzigartiger Maserung.' },
+    7: { name: 'Mundgeblasenes Glas-Terrarium', category: 'Dekoration', badge: 'Kunst-Edition', desc: 'Faszinierendes Mini-Ökosystem in einem handwerklich hergestellten Glasbehälter.' },
+    8: { name: 'Abstraktes Morandi Wandkunst-Set', category: 'Dekoration', badge: '', desc: 'Moderne, minimalistische Kunstdrucke für ein stilvolles Zuhause.' },
+    9: { name: 'Nordische Pendelleuchte', category: 'Beleuchtung', badge: 'Neuheit', desc: 'Klassisches skandinavisches Design mit edlem Holzdekor.' },
+    10: { name: 'Kupferdraht-Lichterkette', category: 'Beleuchtung', badge: '', desc: 'Flexible LED-Kupferlichterkette für eine gemütliche Sternenlicht-Atmosphäre.' },
+    11: { name: 'Terrakotta-Pflanzkübel-Set', category: 'Außenbereich', badge: 'Garten-Tipp', desc: 'Atmungsaktive Terrakotta-Töpfe, ideal für das Wachstum Ihrer Pflanzen.' },
+    12: { name: 'Wetterfestes Outdoor-Kissen', category: 'Außenbereich', badge: '', desc: 'Strapazierfähiges und wasserabweisendes Kissen für Ihre Gartenmöbel.' }
+  },
+  es: {
+    1: { name: 'Manta de Lana Tejida a Mano', category: 'Salón', badge: 'Más Vendido', desc: 'Hecha de lana de Nueva Zelanda, esta manta aporta calidez y textura a cualquier hogar.' },
+    2: { name: 'Lámpara de Mesa de Cerámica Minimalista', category: 'Salón', badge: '', desc: 'Base de cerámica escultural combinada con pantalla de lino para luz ambiental suave.' },
+    3: { name: 'Juego de Funda Nórdica de Lino Orgánico', category: 'Dormitorio', badge: 'Destacado', desc: 'Funda nórdica de lino de flax europeo que se vuelve más suave con cada lavado.' },
+    4: { name: 'Jarrón de Noche Escultural', category: 'Dormitorio', badge: '', desc: 'Jarrón artístico con curvas abstractas para realzar su mesita de noche.' },
+    5: { name: 'Vajilla de Gres Artesanal', category: 'Cocina', badge: 'Súper Oferta', desc: 'Platos de gres hechos a mano con un esmalte mate rústico y elegante.' },
+    6: { name: 'Tabla de Servir de Madera de Olivo', category: 'Cocina', badge: '', desc: 'Tabla de madera de olivo natural pulida a mano con vetas únicas.' },
+    7: { name: 'Terrario de Vidrio Soplado a Mano', category: 'Decoración', badge: 'Edición Art', desc: 'Hermoso ecosistema miniatura contenido en vidrio artesanal.' },
+    8: { name: 'Conjunto de Cuadros Abstractos Morandi', category: 'Decoración', badge: '', desc: 'Láminas decorativas modernas y minimalistas para embellecer paredes.' },
+    9: { name: 'Lámpara Colgante Nórdica', category: 'Iluminación', badge: 'Nuevo', desc: 'Lámpara minimalista en forma de embudo con cuello de madera cálida.' },
+    10: { name: 'Guirnalda de Luces de Cobre', category: 'Iluminación', badge: '', desc: 'Luces LED de alambre de cobre flexible para crear un ambiente mágico.' },
+    11: { name: 'Juego de Macetas de Terracota', category: 'Exterior', badge: 'Jardinería', desc: 'Macetas transpirables de terracota natural ideales para plantas.' },
+    12: { name: 'Cojín de Exterior Resistente al Clima', category: 'Exterior', badge: '', desc: 'Cojín impermeable duradero ideal para sillas de jardín o columpios.' }
+  },
+  ja: {
+    1: { name: '手織りウールブランケット', category: 'リビング', badge: 'ベストセラー', desc: 'ニュージーランド産ウールを100%使用し、手織りのヘリンボーン柄が上質な温もりをもたらします。' },
+    2: { name: 'ミニマリスト陶器テーブルランプ', category: 'リビング', badge: '', desc: '彫刻的な陶器ベースに天然リネンのシェードを組み合わせ、温かみのある光を放ちます。' },
+    3: { name: 'オーガニックリネン布団カバーセット', category: 'ベッドルーム', badge: '最高評価', desc: '洗うたびに柔らかさが増すヨーロッパ産フラックスリネンを使用した極上の布団カバーセット。' },
+    4: { name: 'ベッドサイド彫刻フラワーベース', category: 'ベッドルーム', badge: '', desc: '流麗なアートカーブで、花を生けなくても空間を彩るモダンなベッドサイド花瓶です。' },
+    5: { name: '手作り粗陶器食器セット', category: 'キッチン', badge: 'おすすめ', desc: '手作業で成形し落ち着いたマット釉薬を施した、ぬくもりのある陶器ディナーセットです。' },
+    6: { name: '天然オリーブウッドカッティングボード', category: 'キッチン', badge: '', desc: '独特の美しい木目が特徴のオリーブウッドを使用し、職人が手磨きで仕上げた一枚。' },
+    7: { name: '手吹きガラスのテラリウム', category: 'インテリア', badge: '限定アート', desc: '美しく澄んだ手吹きガラスの中にミニチュアの庭園を閉じ込めた、癒しのテラリウム。' },
+    8: { name: '抽象モランディ壁掛けアートセット', category: 'インテリア', badge: '', desc: '低彩度のモランディ色調で描かれたミニマルモダンなアートパネルセットです。' },
+    9: { name: '北欧ミニマルペンダントライト', category: '照明器具', badge: '新着アイテム', desc: '洗練されたテーパーシルエットに天然木を組み合わせた、食卓に映える吊り下げ灯。' },
+    10: { name: 'レトロ銅线デコレーションライト', category: '照明器具', badge: '', desc: '自由に曲げられる銅線に星屑のような暖かい光が灯る、防水仕様のLEDライトチェーン。' },
+    11: { name: 'テラコッタ多肉プランターセット', category: 'アウトドア', badge: 'ガーデニング', desc: '優れた通気性と排水性を持つテラコッタ鉢。陽気に満ちたトスカーナ風バルコニーに。' },
+    12: { name: '全天候型撥水アウトドアクッション', category: 'アウトドア', badge: '', desc: '高耐久・撥水・耐光性を備えた生地を採用し、中綿がしっかり詰まった快適座布団。' }
+  }
+};
+
+// 核心多语言翻译引擎切换函数
+function changeLanguage(lang, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  
+  currentLang = lang;
+  sessionStorage.setItem('aurea_lang', lang);
+  
+  // 更新导航栏选中的文字
+  var currentLangText = document.getElementById('currentLangText');
+  if (currentLangText) {
+    currentLangText.textContent = lang.toUpperCase();
+  }
+  
+  // 遍历并更新页面静态标签
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+
+  // 重新渲染商品网格及相关组件
+  if (typeof renderProducts === 'function') {
+    renderProducts(typeof activeCategory !== 'undefined' ? activeCategory : 'all');
+  }
+  if (typeof updateCartUI === 'function') {
+    updateCartUI();
+  }
+  if (typeof renderCartItems === 'function') {
+    renderCartItems();
+  }
+  
+  // 重新渲染详情页（若打开中）
+  if (typeof currentProduct !== 'undefined' && currentProduct !== null && typeof renderProductDetail === 'function') {
+    renderProductDetail(currentProduct);
+  }
+
+  // 重新渲染订单与退换货历史页面
+  if (typeof renderOrders === 'function') {
+    renderOrders();
+  }
+  if (typeof renderReturnsHistory === 'function') {
+    renderReturnsHistory();
+  }
+
+  // 收起下拉菜单
+  var dropdown = document.getElementById('langDropdown');
+  if (dropdown) {
+    dropdown.classList.remove('open');
+  }
+}
+
+// 语言下拉框展示收拢控制
+function toggleLangDropdown(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var dropdown = document.getElementById('langDropdown');
+  if (dropdown) {
+    dropdown.classList.toggle('open');
+  }
+}
+
+// 客服面板展开收起
+function toggleSupportPanel(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var card = document.getElementById('supportCard');
+  if (card) {
+    card.classList.toggle('open');
+  }
+}
+
+// 外部空白区域点击监听
+document.addEventListener('click', function(e) {
+  var dropdown = document.getElementById('langDropdown');
+  var langActiveBtn = document.getElementById('langActiveBtn');
+  if (dropdown && dropdown.classList.contains('open') && langActiveBtn) {
+    if (e.target !== langActiveBtn && !langActiveBtn.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  }
+  
+  // 外部点击收起客服卡片
+  var supportCard = document.getElementById('supportCard');
+  var supportFloater = document.getElementById('supportFloater');
+  if (supportCard && supportCard.classList.contains('open') && supportFloater) {
+    if (!supportFloater.contains(e.target)) {
+      supportCard.classList.remove('open');
+    }
+  }
+});
+
 /* ================================================================
    INITIALIZE
    ================================================================ */
-renderProducts();
-updateCartUI();
-renderCartItems();
+// 核心多语言系统自动初始化执行
+changeLanguage(currentLang);
 
 // Keyboard shortcut: ESC to close lightbox/cart
 document.addEventListener('keydown', e => {
@@ -2617,6 +3719,289 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') { prevLightbox(); }
   if (e.key === 'ArrowRight') { nextLightbox(); }
 });
+
+// ================================================================
+// COOL INTERACTIVE ENGINE - 炫酷交互特效引擎（全中文注释）
+// ================================================================
+
+// --- 1. Canvas 交互粒子星光背景 ---
+class ParticleEngine {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) return;
+    this.ctx = this.canvas.getContext('2d');
+    this.particles = [];
+    this.mouse = { x: null, y: null, radius: 150 };
+    this.maxParticles = 60; // 粒子最大数量，确保流畅度
+    
+    this.init();
+    this.animate();
+    this.bindEvents();
+  }
+
+  init() {
+    this.resizeCanvas();
+    this.particles = [];
+    for (let i = 0; i < this.maxParticles; i++) {
+      this.particles.push(this.createParticle());
+    }
+  }
+
+  resizeCanvas() {
+    const parent = this.canvas.parentElement;
+    this.canvas.width = parent.clientWidth;
+    this.canvas.height = parent.clientHeight;
+  }
+
+  createParticle(isNew = false) {
+    return {
+      x: Math.random() * this.canvas.width,
+      y: isNew ? this.canvas.height + 10 : Math.random() * this.canvas.height,
+      vx: (Math.random() - 0.5) * 0.4, // 水平速度
+      vy: -Math.random() * 0.5 - 0.1,  // 向上漂移速度
+      radius: Math.random() * 2 + 1,    // 半径
+      alpha: Math.random() * 0.5 + 0.2, // 初始透明度
+      alphaSpeed: Math.random() * 0.005 + 0.002, // 呼吸速度
+      growing: Math.random() > 0.5
+    };
+  }
+
+  drawParticle(p) {
+    this.ctx.save();
+    this.ctx.beginPath();
+    this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    this.ctx.fillStyle = `rgba(193, 127, 89, ${p.alpha})`; 
+    this.ctx.shadowBlur = p.radius * 4;
+    this.ctx.shadowColor = 'rgba(232, 194, 114, 0.6)';
+    this.ctx.fill();
+    this.ctx.restore();
+  }
+
+  updateParticle(p) {
+    p.x += p.vx;
+    p.y += p.vy;
+
+    // 呼吸灯特效
+    if (p.growing) {
+      p.alpha += p.alphaSpeed;
+      if (p.alpha >= 0.8) p.growing = false;
+    } else {
+      p.alpha -= p.alphaSpeed;
+      if (p.alpha <= 0.1) p.growing = true;
+    }
+
+    // 鼠标排斥交互
+    if (this.mouse.x !== null && this.mouse.y !== null) {
+      const dx = p.x - this.mouse.x;
+      const dy = p.y - this.mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < this.mouse.radius) {
+        const force = (this.mouse.radius - dist) / this.mouse.radius;
+        const angle = Math.atan2(dy, dx);
+        p.x += Math.cos(angle) * force * 1.5;
+        p.y += Math.sin(angle) * force * 1.5;
+      }
+    }
+
+    // 边界检测
+    if (p.y < -10 || p.x < -10 || p.x > this.canvas.width + 10) {
+      Object.assign(p, this.createParticle(true));
+    }
+  }
+
+  connectParticles() {
+    const maxDist = 100;
+    for (let i = 0; i < this.particles.length; i++) {
+      for (let j = i + 1; j < this.particles.length; j++) {
+        const p1 = this.particles[i];
+        const p2 = this.particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.12;
+          this.ctx.beginPath();
+          this.ctx.moveTo(p1.x, p1.y);
+          this.ctx.lineTo(p2.x, p2.y);
+          this.ctx.strokeStyle = `rgba(193, 127, 89, ${alpha})`;
+          this.ctx.lineWidth = 0.6;
+          this.ctx.stroke();
+        }
+      }
+    }
+  }
+
+  animate() {
+    if (!this.canvas) return;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.particles.forEach(p => {
+      this.updateParticle(p);
+      this.drawParticle(p);
+    });
+    this.connectParticles();
+    requestAnimationFrame(() => this.animate());
+  }
+
+  bindEvents() {
+    const parent = this.canvas.parentElement;
+    parent.addEventListener('mousemove', e => {
+      const rect = this.canvas.getBoundingClientRect();
+      this.mouse.x = e.clientX - rect.left;
+      this.mouse.y = e.clientY - rect.top;
+    });
+
+    parent.addEventListener('mouseleave', () => {
+      this.mouse.x = null;
+      this.mouse.y = null;
+    });
+
+    window.addEventListener('resize', () => {
+      this.resizeCanvas();
+    });
+  }
+}
+
+// --- 2. 磨砂流光球体鼠标视差效果 ---
+function initParallaxOrbs() {
+  const hero = document.querySelector('.hero');
+  const orb1 = document.getElementById('hero-orb-1');
+  const orb2 = document.getElementById('hero-orb-2');
+  if (!hero || !orb1 || !orb2) return;
+
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const moveX = (x - rect.width / 2) / (rect.width / 2);
+    const moveY = (y - rect.height / 2) / (rect.height / 2);
+
+    orb1.style.transform = `translate(${moveX * 45}px, ${moveY * 45}px)`;
+    orb2.style.transform = `translate(${moveX * -45}px, ${moveY * -45}px)`;
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    orb1.style.transform = 'translate(0px, 0px)';
+    orb2.style.transform = 'translate(0px, 0px)';
+  });
+}
+
+// --- 3. 商品卡片 3D Tilt 悬停反光特效 ---
+function initTiltCards() {
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(card => {
+    if (card.dataset.tiltInitialized) return;
+    card.dataset.tiltInitialized = 'true';
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left; 
+      const y = e.clientY - rect.top;  
+
+      const px = (x / rect.width) - 0.5;
+      const py = (y / rect.height) - 0.5;
+
+      const rotateX = -(py * 20).toFixed(2);
+      const rotateY = (px * 20).toFixed(2);
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+      card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+      card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  });
+}
+
+// --- 4. 滚动淡入 Reveal 监控引擎 ---
+var scrollRevealObserver = null;
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  
+  if (scrollRevealObserver) {
+    revealElements.forEach(el => scrollRevealObserver.observe(el));
+    return;
+  }
+
+  const options = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  scrollRevealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, options);
+
+  revealElements.forEach(el => scrollRevealObserver.observe(el));
+}
+
+// --- 5. 商品“飞入购物车”抛物线动画 ---
+function animateFlyToCart(sourceImgElement, imageSrc) {
+  const cartIcon = document.querySelector('.nav-cart');
+  if (!sourceImgElement || !cartIcon) return;
+
+  const rectImg = sourceImgElement.getBoundingClientRect();
+  const rectCart = cartIcon.getBoundingClientRect();
+
+  const flyer = document.createElement('img');
+  flyer.src = imageSrc;
+  flyer.className = 'flying-product-image';
+  
+  flyer.style.top = `${rectImg.top}px`;
+  flyer.style.left = `${rectImg.left}px`;
+  flyer.style.width = `${rectImg.width}px`;
+  flyer.style.height = `${rectImg.height}px`;
+
+  document.body.appendChild(flyer);
+
+  // 触发流式布局重绘，使过渡动画过渡顺畅
+  flyer.offsetWidth;
+
+  flyer.style.top = `${rectCart.top + 5}px`;
+  flyer.style.left = `${rectCart.left + 5}px`;
+  flyer.style.width = '16px';
+  flyer.style.height = '20px';
+  flyer.style.opacity = '0.15';
+  flyer.style.transform = 'scale(0.1) rotate(360deg)';
+
+  flyer.addEventListener('transitionend', () => {
+    flyer.remove();
+    
+    // 购物车徽章弹性抖动效果
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+      badge.classList.remove('shake');
+      badge.offsetWidth; // 触发重绘以再次应用 shake 动画
+      badge.classList.add('shake');
+      
+      setTimeout(() => {
+        badge.classList.remove('shake');
+      }, 600);
+    }
+  });
+}
+
+// --- 6. 全局动效模块初始化入口 ---
+function startCoolEffects() {
+  new ParticleEngine('hero-canvas');
+  initParallaxOrbs();
+  initTiltCards();
+  initScrollReveal();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startCoolEffects);
+} else {
+  startCoolEffects();
+}
 </script>
 
 </body>
