@@ -2929,6 +2929,13 @@ function renderOrders() {
   if (orders.length === 0) {
     const emptyText = (translations[currentLang] && translations[currentLang]['orders.empty']) ? translations[currentLang]['orders.empty'] : 'No orders yet. Start shopping to see your orders here.';
     const browseText = (translations[currentLang] && translations[currentLang]['orders.browseBtn']) ? translations[currentLang]['orders.browseBtn'] : 'Browse Collection';
+    
+    // 多语言本地化物流查询文案
+    const trackTitle = (translations[currentLang] && translations[currentLang]['orders.trackTitle']) ? translations[currentLang]['orders.trackTitle'] : 'Track Shipment';
+    const trackDesc = (translations[currentLang] && translations[currentLang]['orders.trackDesc']) ? translations[currentLang]['orders.trackDesc'] : 'Enter your international tracking number to track your package real-time via 17TRACK.';
+    const trackBtn = (translations[currentLang] && translations[currentLang]['orders.trackBtn']) ? translations[currentLang]['orders.trackBtn'] : 'Track';
+    const placeholderText = currentLang === 'zh' ? '例如：YT26051910001' : 'e.g. YT26051910001';
+
     container.innerHTML = `
       <div class="orders-empty">
         <i class="fa-solid fa-box-open"></i>
@@ -2936,6 +2943,19 @@ function renderOrders() {
         <button class="btn btn-outline btn-sm" style="margin-top:1rem;" onclick="navigateTo('home'); document.getElementById('shop').scrollIntoView({behavior:'smooth'});">
           ${browseText}
         </button>
+      </div>
+      
+      <!-- 17TRACK 极奢毛玻璃快捷物流单号查询面板 -->
+      <div class="shipment-tracker-card" style="margin-top: 3rem; padding: 2rem; border: 1px solid var(--color-border-light); border-radius: 8px; background: rgba(255,255,255,0.02); backdrop-filter: blur(10px); text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; color: var(--color-text);">
+          <i class="fa-solid fa-truck-fast"></i> ${trackTitle}
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.2rem; line-height: 1.4;">${trackDesc}</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="quickTrackingNum" placeholder="${placeholderText}" style="flex: 1; min-width: 200px; padding: 10px 15px; border: 1px solid var(--color-border-light); border-radius: 4px; background: rgba(255,255,255,0.05); color: var(--color-text); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 200ms;" onfocus="this.style.borderColor='var(--color-text)'" onblur="this.style.borderColor='var(--color-border-light)'">
+          <button onclick="trackVia17Track()" style="padding: 10px 20px; background: #000; color: #fff; text-decoration: none; border-radius: 4px; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 200ms; white-space: nowrap;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">${trackBtn}</button>
+        </div>
+        <p id="quickTrackError" style="color: #ff4d4f; font-size: 0.8rem; margin-top: 0.5rem; display: none;"></p>
       </div>`;
     return;
   }
@@ -2954,10 +2974,20 @@ function renderOrders() {
     const statusMap = {
       'Completed': { en: 'Completed', zh: '已完成', fr: 'Terminée', de: 'Abgeschlossen', es: 'Completado', ja: '配達完了' },
       'Shipped': { en: 'Shipped', zh: '已发货', fr: 'Expédiée', de: 'Versandt', es: 'Enviado', ja: '発送済み' },
-      'Processing': { en: 'Processing', zh: '处理中', fr: 'En cours', de: 'In Bearbeitung', es: 'En proceso', ja: '処理中' }
+      'Processing': { en: 'Processing', zh: '处理中', fr: 'En cours', de: 'In Bearbeitung', es: 'En proceso', ja: '处理中' }
     };
     const statusText = (statusMap[order.status] && statusMap[order.status][currentLang]) ? statusMap[order.status][currentLang] : order.status;
     const shippingPrefix = (translations[currentLang] && translations[currentLang]['orders.shippingTo']) ? translations[currentLang]['orders.shippingTo'] : 'Shipping to:';
+    const trackShipmentBtn = (translations[currentLang] && translations[currentLang]['orders.trackShipmentBtn']) ? translations[currentLang]['orders.trackShipmentBtn'] : 'Track Shipment';
+
+    // 模拟的 17TRACK 物流追踪卡片按钮（只有 Shipped 和 Completed 状态显示）
+    const trackingBtnHtml = (order.status === 'Shipped' || order.status === 'Completed') ? `
+      <div style="display:flex; justify-content:flex-end; margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--color-border-light);">
+        <a href="https://www.17track.net/?nums=${order.trackingNumber || 'YT260519' + order.id}" target="_blank" style="padding:10px 20px;background:#000;color:#fff;text-decoration:none;border-radius:4px;display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;transition:opacity 200ms;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          <i class="fa-solid fa-truck-fast"></i> <span>${trackShipmentBtn}</span>
+        </a>
+      </div>
+    ` : '';
 
     return `
       <div class="order-card">
@@ -2993,6 +3023,7 @@ function renderOrders() {
           <div style="margin-top:var(--space-md); padding-top:var(--space-md); border-top:1px solid var(--color-border-light); font-size:0.85rem; color:var(--color-text-muted);">
             <p>${shippingPrefix} ${order.shipping.firstName} ${order.shipping.lastName}, ${order.shipping.address}, ${order.shipping.city}, ${order.shipping.zip}, ${order.shipping.country}</p>
           </div>
+          ${trackingBtnHtml}
         </div>
       </div>
     `;
@@ -3223,6 +3254,10 @@ var translations = {
     'orders.empty': 'No orders yet. Start shopping to see your orders here.',
     'orders.browseBtn': 'Browse Collection',
     'orders.shippingTo': 'Shipping to:',
+    'orders.trackTitle': 'Track Shipment',
+    'orders.trackDesc': 'Enter your international tracking number to track your package real-time via 17TRACK.',
+    'orders.trackBtn': 'Track',
+    'orders.trackShipmentBtn': 'Track Shipment',
     'returns.empty': 'No return requests yet.',
     'returns.reasonText': 'Reason:',
     'returns.itemsCount': 'item(s)',
@@ -3280,6 +3315,10 @@ var translations = {
     'orders.empty': '暂无订单记录。赶紧去挑选心仪的家居好物吧！',
     'orders.browseBtn': '探索极简生活馆',
     'orders.shippingTo': '收货地址：',
+    'orders.trackTitle': '物流单号追踪',
+    'orders.trackDesc': '输入您的国际物流运单号，通过 17TRACK 实时查询包裹轨迹。',
+    'orders.trackBtn': '立即查询',
+    'orders.trackShipmentBtn': '查询物流轨迹',
     'returns.empty': '暂无退换货申请记录。',
     'returns.reasonText': '退换原因：',
     'returns.itemsCount': '件商品',
@@ -3337,6 +3376,10 @@ var translations = {
     'orders.empty': 'Aucune commande pour le moment. Commencez vos achats.',
     'orders.browseBtn': 'Découvrir la Collection',
     'orders.shippingTo': 'Livraison à:',
+    'orders.trackTitle': 'Suivi de Colis',
+    'orders.trackDesc': 'Entrez votre numéro de suivi international pour suivre votre colis en temps réel via 17TRACK.',
+    'orders.trackBtn': 'Suivre',
+    'orders.trackShipmentBtn': 'Suivre la Livraison',
     'returns.empty': 'Aucune demande de retour.',
     'returns.reasonText': 'Motif:',
     'returns.itemsCount': 'article(s)',
@@ -3394,6 +3437,10 @@ var translations = {
     'orders.empty': 'Noch keine Bestellungen. Fangen Sie an einzukaufen.',
     'orders.browseBtn': 'Kollektion Durchstöbern',
     'orders.shippingTo': 'Versand an:',
+    'orders.trackTitle': 'Sendungsverfolgung',
+    'orders.trackDesc': 'Geben Sie Ihre Sendungsnummer ein, um Ihr Paket in Echtzeit über 17TRACK zu verfolgen.',
+    'orders.trackBtn': 'Verfolgen',
+    'orders.trackShipmentBtn': 'Sendung Verfolgen',
     'returns.empty': 'Noch keine Rückgabeanträge.',
     'returns.reasonText': 'Grund:',
     'returns.itemsCount': 'Artikel',
@@ -3451,6 +3498,10 @@ var translations = {
     'orders.empty': 'Aún no hay pedidos. Comience a comprar.',
     'orders.browseBtn': 'Explorar la Colección',
     'orders.shippingTo': 'Envío a:',
+    'orders.trackTitle': 'Seguimiento de Envío',
+    'orders.trackDesc': 'Ingrese su número de seguimiento internacional para rastrear su paquete en tiempo real a través de 17TRACK.',
+    'orders.trackBtn': 'Rastrear',
+    'orders.trackShipmentBtn': 'Rastrear Envío',
     'returns.empty': 'Aún no hay solicitudes.',
     'returns.reasonText': 'Motivo:',
     'returns.itemsCount': 'artículo(s)',
@@ -3508,6 +3559,10 @@ var translations = {
     'orders.empty': 'まだ注文がありません。お買い物を始めてみましょう。',
     'orders.browseBtn': 'コレクションを見る',
     'orders.shippingTo': 'お届け先：',
+    'orders.trackTitle': 'お荷物の追跡',
+    'orders.trackDesc': '追跡番号を入力して、17TRACKでリアルタイムにお荷物の配送状況を確認できます。',
+    'orders.trackBtn': '追跡する',
+    'orders.trackShipmentBtn': '配送状況を追跡',
     'returns.empty': '返品リクエスト履歴はまだありません。',
     'returns.reasonText': '理由：',
     'returns.itemsCount': '点のアイテム',
@@ -3677,6 +3732,27 @@ function toggleSupportPanel(event) {
   if (card) {
     card.classList.toggle('open');
   }
+}
+
+// 一键直达 17TRACK 物流追踪
+function trackVia17Track() {
+  const input = document.getElementById('quickTrackingNum');
+  const errorEl = document.getElementById('quickTrackError');
+  if (errorEl) errorEl.style.display = 'none';
+
+  if (!input) return;
+  const num = input.value.trim();
+  if (!num) {
+    if (errorEl) {
+      errorEl.textContent = currentLang === 'zh' ? '请输入您的物流追踪单号。' : 'Please enter a tracking number.';
+      errorEl.style.display = 'block';
+    }
+    return;
+  }
+
+  // 17TRACK 官方带单号跳转参数 URL 格式：https://www.17track.net/?nums=单号
+  const url = `https://www.17track.net/?nums=${encodeURIComponent(num)}`;
+  window.open(url, '_blank');
 }
 
 // 外部空白区域点击监听
