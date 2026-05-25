@@ -158,6 +158,8 @@
   // EmailJS 优先（200封/月），超量自动切换 SendGrid（100封/天）
   // 注册: https://www.emailjs.com/  +  https://sendgrid.com/
   // ============================================================ -->
+</script>
+
 <script>
   // ========== 配置区（替换为你自己的 Key）==========
   const EMAIL_CONFIG = {
@@ -3138,6 +3140,11 @@ function handleLogout() {
 
 function toggleUserMenu(e) {
   if (e) { e.preventDefault(); e.stopPropagation(); }
+  // Firebase not loaded yet — load it and show login modal
+  if (!window._firebaseReady) {
+    openAuthModal();
+    return;
+  }
   const user = auth.currentUser;
   if (!user) {
     openAuthModal();
@@ -3175,6 +3182,7 @@ function initAuthListener() {
     document.getElementById('logoutBtn').style.display = 'none';
   }
 });
+}
 
 /* ================================================================
    FIREBASE FIRESTORE — 跨设备订单存储 (免费: 1GB+5万读/天)
