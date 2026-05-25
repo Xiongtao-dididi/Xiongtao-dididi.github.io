@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — AURÉA HOME</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23C17F59'/><path d='M50 20L20 45h15v35h30V45h15L50 20zm0 10l20 16.7V75H65v-25H35v25h-5V46.7L50 30z' fill='white'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --color-accent: oklch(0.55 0.12 50);
+  --color-accent-dark: oklch(0.42 0.11 50);
+  --color-surface: oklch(0.98 0.003 70);
+  --color-text: oklch(0.22 0.005 70);
+  --color-text-muted: oklch(0.50 0.005 70);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--color-surface);
+  color: var(--color-text); display: flex; align-items: center;
+  justify-content: center; min-height: 100vh; text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 560px; padding: 20px; }
+h1 {
+  font-family: var(--font-display); font-size: 6rem;
+  font-weight: 700; color: var(--color-accent);
+  line-height: 1; margin-bottom: 8px;
+}
+h2 {
+  font-family: var(--font-display); font-size: 1.5rem;
+  font-weight: 600; margin-bottom: 16px;
+}
+p { color: var(--color-text-muted); line-height: 1.6; margin-bottom: 32px; font-size: 0.95rem; }
+.actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 50px;
+  font-size: 0.9rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; text-decoration: none;
+  transition: all 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.btn-primary { background: var(--color-accent); color: #fff; }
+.btn-primary:hover { background: var(--color-accent-dark); transform: translateY(-2px); }
+.btn-outline { border: 2px solid var(--color-accent); color: var(--color-accent); }
+.btn-outline:hover { background: var(--color-accent); color: #fff; transform: translateY(-2px); }
+.brand {
+  font-family: var(--font-display); font-size: 1.1rem;
+  font-weight: 600; color: var(--color-text-muted);
+  margin-top: 40px;
+}
+.brand span { color: var(--color-accent); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>404</h1>
+  <h2>Page not found</h2>
+  <p>The page you're looking for doesn't exist or has been moved. Let us help you find what you need.</p>
+  <div class="actions">
+    <a href="/" class="btn btn-primary">
+      <i class="fa-solid fa-house"></i> Back to Store
+    </a>
+    <a href="/#shop" class="btn btn-outline">
+      <i class="fa-solid fa-bag-shopping"></i> Browse Collection
+    </a>
+  </div>
+  <p class="brand">AUREA<span>HOME</span></p>
+</div>
+</body>
+</html>
